@@ -3,5 +3,39 @@ html
   head
     title= title
     link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/bulma/0.8.0/css/bulma.min.css' integrity='sha256-D9M5yrVDqFlla7nlELDaYZIpXfFWDytQtiV+TaH6F1I=' crossorigin='anonymous')
   body
+    nav.navbar(role='navigation' aria-label='main navigation')
+      .container
+        .navbar-brand
+          a.navbar-item(href='/')
+            strong Home
+          button.button.navbar-burger(data-target='navMenu')
+            span
+            span
+            span
+        #navMenu.navbar-menu
+          .navbar-start
+            // navbar items
+            a.navbar-item(href='/faq')
+              span FAQ
+            a.navbar-item(href='/blog')
+              span Blog
+            a.navbar-item(href='/topics')
+              | Topics
+            a.navbar-item(href='/bookshelves')
+              | Bookshelves
+            a.navbar-item.is-warning(href='https://paypal.me/tiggreen' target='_blank')
+              span.icon
+                i.fa.fa-paypal
+              span
+                strong Make a donation
+          .navbar-end
+            // navbar items
+            .changelog.navbar-item.is-hidden-touch
+              a.changloglink(href='#' style='color: #08ac94') What&apos;s New
+            .navbar-item
+              a.button.is-primary(href='/register') SIGN UP
+            .navbar-item
+              a.button.is-light(href='/login') LOG IN
     block content
