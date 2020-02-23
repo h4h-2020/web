@@ -51,10 +51,33 @@ router.get('/login', function (req, res, next) {
 });
 
 /* GET listings page */
-router.get('/listings', function (req, res, next) {
+router.get('/listings', async function (req, res, next) {
   // pass different listings depending on the user's login condition
-  res.render('listings', { title: 'Listings', user: req.user && !req.user.is_admin } );
-  });
+  var list = await db.query('SELECT * FROM social_services JOIN attributes ON attributes.id = social_services.attributes_id', []);
+  list = list.rows
+  var services_tags = await db.query('SELECT * FROM social_services_tags', []);
+  services_tags = services_tags.rows
+  var tags = await db.query('SELECT * FROM tags', []);
+  tags = tags.rows
+
+  console.log(list)
+  console.log(services_tags)
+
+
+  const social_services =
+    list.map((ss) => {
+      return {
+        ...ss,
+        tags: services_tags
+          .filter((st) => st.social_services_id == ss.id)
+          .map((st) => tags.find((tag) => tag.id == st.tags_id).name)
+      }
+    })
+
+  console.log(social_services)
+
+  res.render('listings', { title: 'Listings', user: req.user && !req.user.is_admin, social_services: list } );
+});
 
 /* GET listings-hard page */
 router.get('/listings-hard', function (req, res, next) {

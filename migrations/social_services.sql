@@ -20,14 +20,15 @@ CREATE TABLE social_services_tags (
 );
 
 CREATE TABLE attributes (
+  ID SERIAL PRIMARY KEY,
   citizenship BOOLEAN,
   ssn BOOLEAN,
   residency TEXT,
   languages TEXT,
   income_level TEXT,
   children BOOLEAN,
-  BIRTHDATE TEXT,
-  AGE TEXT,
+  birthdate TEXT,
+  age TEXT,
   disability BOOLEAN,
   medical_history TEXT,
   education TEXT
