@@ -13,9 +13,15 @@ router.get('/register', function(req, res, next) {
   res.render('register', { title: 'Register' });
 });
 
+<<<<<<< HEAD
+router.post('/register', function(req, res, next) {
+  console.log(req);
+  res.render('register', { title: 'Register' });
+=======
 /* GET login page */
 router.get('/login', function (req, res, next) {
     res.render('login', { title: 'Express' });
+>>>>>>> a39b84e4992c2f4e0698c27e4630fe0f3a87986d
 });
 module.exports = router;
 
