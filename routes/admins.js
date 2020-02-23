@@ -2,9 +2,9 @@ var express = require('express');
 var router = express.Router();
 const db = require('../db')
 var bcrypt = require('bcrypt');
+const passport = require('../auth')
 
-router.get('/register', async function(req, res, next) {
-  // const r = await db.query('SELECT * FROM admins')
+router.get('/register', function(req, res, next) {
   res.render('admins/register', { title: 'Register', flash: req.flash('info') });
 });
 
@@ -14,40 +14,22 @@ router.get('/login', function (req, res, next) {
 });
 
 /* modify router to handle the submit button */
-router.post('/login', async function(req, res, next) {
-  try {
-    const user = await db.query('SELECT id, password FROM admins WHERE "email"=$1', [req.body.email])
+router.post('/login', passport.authenticate('adminLocal', { failureRedirect: '/admins/login' }), function(req, res, next) {
 
-    if (user.rowCount == 1) {
-      var r = await bcrypt.compare(req.body.password, user.rows[0].password)
-      if (r) {
-        req.flash('info', "Logged successfully.");
-        res.redirect('/');
-      } else {
-        req.flash('info', "Login information incorrect");
-        res.redirect('/admins/login');
-      }
-    } else {
-      req.flash('info', "Login information incorrect");
-      res.redirect('/admins/login');
-    }
-  } catch(e) {
-    req.flash('info', "Login information incorrect");
-    res.redirect('/admins/login');
-  }
+  res.redirect('/admins/manage');
 });
 
 router.post('/register', async function (req, res, next) {
   try {
     var pwd = await bcrypt.hash(req.body.password, 5);
-    const user_id = await db.query('SELECT id FROM admins WHERE "email"=$1', [req.body.email])
+    const user_id = await db.query('SELECT id FROM admins WHERE "email"=$1', [req.body.username])
     if (user_id.rowCount > 0) {
       console.log("this admin exists")
       req.flash('info', "This emailed is already registered. <a href='/login'>Log in!</a>")
       res.redirect('/admins/login');
     } else {
       console.log("this admin doesn't exist")
-      const insert = await db.query('INSERT INTO admins (email, password) VALUES ($1, $2)', [req.body.email, pwd]);
+      const insert = await db.query('INSERT INTO admins (email, password) VALUES ($1, $2)', [req.body.username, pwd]);
 
       console.log(insert)
 
@@ -67,8 +49,19 @@ router.post('/register', async function (req, res, next) {
   }
 });
 
+router.get('/logout', function(req, res){
+  req.logout();
+  req.flash('info', 'Logged out. See you soon!');
+  res.redirect('/');
+});
+
 router.get('/manage', async function(req, res, next) {
-  res.render('admins/manage', { title: 'Manage social services'});
+  if (req.isAuthenticated) {
+    res.render('admins/manage', { title: 'Manage social services', admin: true});
+  } else {
+    req.flash('info','You are not authenticated');
+    res.redirect('/');
+  }
 });
 
 module.exports = router;

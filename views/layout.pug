@@ -31,6 +31,12 @@ html
               a.changloglink(href='#' style='color: #08ac94') What&apos;s New
             .navbar-item
               a.button.is-primary(href='/register') SIGN UP
+            if admin
+              .navbar-item
+                a.button.is-primary(href='/admins/logout') LOG OUT
+            if user
+              .navbar-item
+                a.button.is-primary(href='/logout') LOG OUT
             .navbar-item
               a.button.is-light(href='/login') LOG IN
     .container(style='top: 32px')
