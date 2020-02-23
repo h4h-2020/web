@@ -1,0 +1,39 @@
+extends ../layout
+
+block content
+  .main.container
+    .row
+      .col-md-6.col-md-offset-3
+        h1.display-4.m-b-2 Sign Up
+
+      .field
+        label.label Name
+        .control
+          input.input(type='name' placeholder='Name')
+
+      .field
+        label.label Email
+        .control
+        p.control.has-icons-left.has-icons-right
+          input.input(type='email' placeholder='Email')
+          span.icon.is-small.is-left
+            i.fas.fa-envelope
+          span.icon.is-small.is-right
+            i.fas.fa-check
+      .field
+        label.label Password
+        .control
+        p.control.has-icons-left
+          input.input(type='password' placeholder='Password')
+          span.icon.is-small.is-left
+            i.fas.fa-lock
+      .field
+        label.label Confirm Password
+        .control
+        p.control.has-icons-left
+          input.input(type='password2' placeholder='Confirm Password')
+          span.icon.is-small.is-left
+            i.fas.fa-lock
+      .field.is-grouped
+        .control
+          button.button.is-link Submit
