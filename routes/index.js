@@ -25,6 +25,13 @@ router.get('/login', function (req, res, next) {
   res.render('login', { title: 'Express' });
 });
 
+
+/* GET listings page */
+router.get('/listings', function (req, res, next) {
+  res.render('listings', { title: 'Express' });
+});
+
+
 /* modify router to handle the submit button */
 router.post('/login', function(req, res, next) {
   // TODO: implement the functionality
