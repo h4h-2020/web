@@ -60,10 +60,6 @@ router.get('/listings', async function (req, res, next) {
   var tags = await db.query('SELECT * FROM tags', []);
   tags = tags.rows
 
-  console.log(list)
-  console.log(services_tags)
-
-
   const social_services =
     list.map((ss) => {
       return {
@@ -74,9 +70,7 @@ router.get('/listings', async function (req, res, next) {
       }
     })
 
-  console.log(social_services)
-
-  res.render('listings', { title: 'Listings', user: req.user && !req.user.is_admin, social_services: list } );
+  res.render('listings', { title: 'Listings', user: req.user && !req.user.is_admin, social_services } );
 });
 
 /* GET listings-hard page */

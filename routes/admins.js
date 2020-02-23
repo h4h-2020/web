@@ -16,7 +16,7 @@ router.get('/login', function (req, res, next) {
 /* modify router to handle the submit button */
 router.post('/login', passport.authenticate('adminLocal', { failureRedirect: '/admins/login' }), function(req, res, next) {
 
-  res.redirect('/admins/manage');
+  res.redirect('/admins/dashboard');
 });
 
 router.post('/register', async function (req, res, next) {
@@ -58,7 +58,7 @@ router.get('/logout', function(req, res){
 router.get('/manage', async function(req, res, next) {
   if (req.user && req.user.is_admin) {
     console.log(req.user.is_admin)
-    res.render('admins/manage', { title: 'Manage social services', admin: true});
+    res.render('admins/manage', { title: 'Manage social services', admin: true });
   } else {
     req.flash('info','You are not authenticated');
     res.redirect('/');
@@ -67,7 +67,7 @@ router.get('/manage', async function(req, res, next) {
 
 /* GET admin dashboard page */
 router.get('/dashboard', async function (req, res, next) {
-  res.render('admins/dashboard', { title: 'Admin Dashboard' });
+  res.render('admins/dashboard', { title: 'Admin Dashboard', admin: true });
 });
 
 module.exports = router;
