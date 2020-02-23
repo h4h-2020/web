@@ -64,4 +64,9 @@ router.get('/manage', async function(req, res, next) {
   }
 });
 
+/* GET admin dashboard page */
+router.get('/dashboard', async function (req, res, next) {
+  res.render('admins/dashboard', { title: 'Admin Dashboard' });
+});
+
 module.exports = router;
