@@ -6,24 +6,20 @@ const bcrypt = require('bcrypt');
 passport.use('adminLocal', new LocalStrategy(
   async function(email, password, next) {
     try {
-      const user = await db.query('SELECT id, password FROM admins WHERE "email"=$1', [email])
-      console.log(email);
-      console.log(password);
+      const user = await db.query('SELECT id, password, is_admin FROM users WHERE "email"=$1 AND "is_admin"=$2', [email, true])
+
 
       if (user.rowCount == 1) {
         var r = await bcrypt.compare(password, user.rows[0].password)
         if (r) {
-          console.log("should not trigger")
-          return next(null, user);
+          return next(null, user.rows[0]);
         } else {
           next(null, false);
         }
       } else {
-        console.log("should trigger")
         next(null, false);
       }
     } catch(e) {
-      console.log(e)
       next(null, false);
     }
   }
@@ -32,12 +28,12 @@ passport.use('adminLocal', new LocalStrategy(
 passport.use('userLocal', new LocalStrategy(
   async function(email, password, next) {
     try {
-      const user = await db.query('SELECT id, password FROM users WHERE "email"=$1', [email])
+      const user = await db.query('SELECT id, password, is_admin FROM users WHERE "email"=$1', [email])
 
       if (user.rowCount == 1) {
         var r = await bcrypt.compare(password, user.rows[0].password)
         if (r) {
-          next(null, user);
+          return next(null, user.rows[0]);
         } else {
           next(null, false);
         }

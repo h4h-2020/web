@@ -1,5 +1,13 @@
+-- CREATE TABLE users (
+  -- ID SERIAL PRIMARY KEY,
+  -- email TEXT NOT NULL UNIQUE,
+  -- password TEXT NOT NULL
+-- );
+
+DROP TABLE users;
 CREATE TABLE users (
   ID SERIAL PRIMARY KEY,
   email TEXT NOT NULL UNIQUE,
-  password TEXT NOT NULL
+  password TEXT NOT NULL,
+  is_admin BOOLEAN DEFAULT FALSE
 );

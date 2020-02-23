@@ -22,14 +22,14 @@ router.post('/login', passport.authenticate('adminLocal', { failureRedirect: '/a
 router.post('/register', async function (req, res, next) {
   try {
     var pwd = await bcrypt.hash(req.body.password, 5);
-    const user_id = await db.query('SELECT id FROM admins WHERE "email"=$1', [req.body.username])
+    const user_id = await db.query('SELECT id FROM users WHERE "email"=$1 and "is_admin"=$2', [req.body.username, true])
     if (user_id.rowCount > 0) {
       console.log("this admin exists")
       req.flash('info', "This emailed is already registered. <a href='/login'>Log in!</a>")
       res.redirect('/admins/login');
     } else {
       console.log("this admin doesn't exist")
-      const insert = await db.query('INSERT INTO admins (email, password) VALUES ($1, $2)', [req.body.username, pwd]);
+      const insert = await db.query('INSERT INTO users (email, password, is_admin) VALUES ($1, $2, $3)', [req.body.username, pwd, true]);
 
       console.log(insert)
 
@@ -51,12 +51,13 @@ router.post('/register', async function (req, res, next) {
 
 router.get('/logout', function(req, res){
   req.logout();
-  req.flash('info', 'Logged out. See you soon!');
+  req.flash('info', 'Your are logged out. See you soon!');
   res.redirect('/');
 });
 
 router.get('/manage', async function(req, res, next) {
-  if (req.isAuthenticated) {
+  if (req.user && req.user.is_admin) {
+    console.log(req.user.is_admin)
     res.render('admins/manage', { title: 'Manage social services', admin: true});
   } else {
     req.flash('info','You are not authenticated');
