@@ -2,63 +2,33 @@ extends ../layout
 
 block content
   .main.container
-    .login
-      h1 Login to BOOST
-      form(method='POST' action='/login')
-        p
-          input.input(type='text' name='login' value='' placeholder='Email')
-        p
-          input.input(type='password' name='password' value='' placeholder='Password')
-        p.remember_me
-          label
-            input#remember_me(type='checkbox' name='remember_me')
-            |               Remember me on this computer
-        p.submit
-          input(type='submit' name='commit' value='Login')
-
-    .login-help
-      p
-        | Forgot your password? 
-        a(href='#') Click here to reset it
-        | .
-
-//-block content
-    .main.container
     .row
-      .col-md-6.col-md-offset-3
-        h1.display-4.m-b-2 Login
-      .field
-        label.label Email
-        .control
-        p.control.has-icons-left.has-icons-right
-          input.input(type='email' placeholder='Email')
-          span.icon.is-small.is-left
-            i.fas.fa-envelope
-          span.icon.is-small.is-right
-            i.fas.fa-check
-      .field
-        label.label Password
-        .control
-        p.control.has-icons-left
-          input.input(type='password' placeholder='Password')
-          span.icon.is-small.is-left
-            i.fas.fa-lock
-      .field.is-grouped
-        .control
-          button.button.is-link Login
+      .columns.is-mobile
+        .column.is-half.is-offset-one-quarter
+          label.label Login to Boost
+          form(method='POST' action='admins/login')
+            .field
+              p.control.has-icons-left.has-icons-right
+                input.input(type='text' name='login' value='' placeholder='Email')
+                span.icon.is-small.is-left
+                  i.fas.fa-envelope
+                span.icon.is-small.is-right
+                  i.fas.fa-check
+            .field
+              p.control.has-icons-left
+                input.input(type='password' placeholder='Password' name='password')
+                span.icon.is-small.is-left
+                  i.fas.fa-lock
+            p.remember_me
+              label
+                input#remember_me(type='checkbox' name='remember_me')
+                |               Remember me on this computer
+            .field
+              .control
+                input.button.is-success(type='submit' name='commit' value='Login')
 
-
-
-//- block content
-  .main.container
-    .row
-      .col-md-6.col-md-offset-3
-        h1.display-4.m-b-2 Log In
-        form(method='POST' action='/login')
-          div.form-group
-            label(for='email') Email
-            input.form-control(type='text' id='email' placeholder='email' name='email')
-          div.form-group
-            label(for='password') Password
-            input.form-control(type='password' id='password' placeholder='password' name='password')
-          button.btn.btn-primary(type='submit') Log in //
+        .login-help
+          p
+            | Forgot your password? 
+            a(href='#') Click here to reset it
+            | .
