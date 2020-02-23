@@ -6,10 +6,10 @@ block content
       .columns.is-mobile
         .column.is-half.is-offset-one-quarter
           label.label Login to Boost
-          form(method='POST' action='admins/login')
+          form(method='POST' action='/admins/login')
             .field
               p.control.has-icons-left.has-icons-right
-                input.input(type='text' name='login' value='' placeholder='Email')
+                input.input(type='text' name='email' value='' placeholder='Email')
                 span.icon.is-small.is-left
                   i.fas.fa-envelope
                 span.icon.is-small.is-right
