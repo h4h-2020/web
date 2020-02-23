@@ -3,6 +3,7 @@ var router = express.Router();
 const db = require('../db') /* database wrapper */
 var bcrypt = require('bcrypt'); /* cryptography stuff */ 
 const passport = require('../auth') 
+
 /* GET home page. */
 router.get('/', async function(req, res, next) {
   const r = await db.query('SELECT * FROM users')
