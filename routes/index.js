@@ -20,7 +20,7 @@ router.post('/register', function(req, res, next) {
 
 /* GET login page */
 router.get('/login', function (req, res, next) {
-    res.render('login', { title: 'Express' });
+  res.render('login', { title: 'Express' });
 });
 
 /* modify router to handle the submit button */
@@ -28,6 +28,6 @@ router.post('/login', function(req, res, next) {
   console.log('Email: '+ req.body.login)
   console.log('Password: '+ req.body.password)
   res.redirect('/')
-  });
+});
 
 module.exports = router;
