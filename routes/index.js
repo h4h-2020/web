@@ -6,7 +6,7 @@ const db = require('../db')
 router.get('/', async function(req, res, next) {
   const r = await db.query('SELECT * FROM users')
   console.log(r);
-  res.render('index', { title: 'Express' });
+  res.render('index', { title: 'Boost' });
 });
 
 router.get('/register', function(req, res, next) {
@@ -14,8 +14,10 @@ router.get('/register', function(req, res, next) {
 });
 
 router.post('/register', function(req, res, next) {
-  console.log(req);
-  res.render('register', { title: 'Register' });
+  // TODO: implement the functionality
+  // refer to routes/admins.js
+  // very similar but use users table instead of admins table
+  res.redirect('/')
 });
 
 /* GET login page */
@@ -25,8 +27,9 @@ router.get('/login', function (req, res, next) {
 
 /* modify router to handle the submit button */
 router.post('/login', function(req, res, next) {
-  console.log('Email: '+ req.body.login)
-  console.log('Password: '+ req.body.password)
+  // TODO: implement the functionality
+  // refer to routes/admins.js
+  // very similar but use users table instead of admins table
   res.redirect('/')
 });
 

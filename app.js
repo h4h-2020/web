@@ -4,13 +4,15 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
 var logger = require('morgan');
-var flash = require('connect-flash');
+var flash = require('express-flash');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var adminsRouter = require('./routes/admins');
 
 var app = express();
+
+var sessionStore = new session.MemoryStore;
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -20,8 +22,15 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser('secret'));
-app.use(session({cookie: { maxAge: 60000 }}));
+app.use(session({
+    cookie: { maxAge: 60000 },
+    store: sessionStore,
+    saveUninitialized: true,
+    resave: 'true',
+    secret: 'secret'
+}));
 app.use(flash())
+
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);

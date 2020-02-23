@@ -5,34 +5,34 @@ var bcrypt = require('bcrypt');
 
 router.get('/register', async function(req, res, next) {
   // const r = await db.query('SELECT * FROM admins')
-  res.render('admins/register', { title: 'Register' });
+  res.render('admins/register', { title: 'Register', flash: req.flash('info') });
 });
 
 /* GET login page */
 router.get('/login', function (req, res, next) {
-  res.render('admins/login', { title: 'Express' });
+  res.render('admins/login', { title: 'Login', flash: req.flash('info') });
 });
 
 /* modify router to handle the submit button */
 router.post('/login', async function(req, res, next) {
   try {
-    const user = await db.query('SELECT id, password FROM "users" WHERE "email"=$1', [req.body.email])
+    const user = await db.query('SELECT id, password FROM admins WHERE "email"=$1', [req.body.email])
 
     if (user.rowCount == 1) {
       var r = await bcrypt.compare(req.body.password, user.rows[0].password)
       if (r) {
-        req.flash('success', "Logged successfully.");
+        req.flash('info', "Logged successfully.");
         res.redirect('/');
       } else {
-        req.flash('warning', "Login information incorrect");
+        req.flash('info', "Login information incorrect");
         res.redirect('/admins/login');
       }
     } else {
-      req.flash('warning', "Login information incorrect");
+      req.flash('info', "Login information incorrect");
       res.redirect('/admins/login');
     }
   } catch(e) {
-    req.flash('warning', "Login information incorrect");
+    req.flash('info', "Login information incorrect");
     res.redirect('/admins/login');
   }
 });
@@ -43,7 +43,7 @@ router.post('/register', async function (req, res, next) {
     const user_id = await db.query('SELECT id FROM admins WHERE "email"=$1', [req.body.email])
     if (user_id.rowCount > 0) {
       console.log("this admin exists")
-      req.flash('warning', "This emailed is already registered. <a href='/login'>Log in!</a>")
+      req.flash('info', "This emailed is already registered. <a href='/login'>Log in!</a>")
       res.redirect('/admins/login');
     } else {
       console.log("this admin doesn't exist")
@@ -53,18 +53,22 @@ router.post('/register', async function (req, res, next) {
 
       if (insert) {
         console.log(insert)
-        req.flash('success','Admin created.')
+        req.flash('info','Admin created.')
         res.redirect('/admins/login');
       } else {
-        req.flash('warning', "Something went wrong");
+        req.flash('info', "Something went wrong");
         res.redirect('/admins/register');
       }
     }
   } catch(e) {
     console.log(e)
-    req.flash('warning', "Something went wrong");
+    req.flash('info', "Something went wrong");
     res.redirect('/admins/register');
   }
+});
+
+router.get('/manage', async function(req, res, next) {
+  res.render('admins/manage', { title: 'Manage social services'});
 });
 
 module.exports = router;

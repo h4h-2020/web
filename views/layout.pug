@@ -27,11 +27,12 @@ html
             a.navbar-item(href='/bookshelves')
               | Bookshelves
           .navbar-end
-            // navbar items
             .changelog.navbar-item.is-hidden-touch
               a.changloglink(href='#' style='color: #08ac94') What&apos;s New
             .navbar-item
               a.button.is-primary(href='/register') SIGN UP
             .navbar-item
               a.button.is-light(href='/login') LOG IN
-    block content
+    .container(style='top: 32px')
+      p #{flash}
+      block content
